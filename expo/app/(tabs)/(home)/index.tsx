@@ -15,7 +15,7 @@ import { ArrowRight, Star, MapPin, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 
 import Colors from '@/constants/colors';
-import { designTypes, testimonials } from '@/mocks/data';
+import { curbDesignImages, designTypes, testimonials } from '@/mocks/data';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -60,7 +60,7 @@ export default function HomeScreen() {
         <View style={styles.heroSection}>
           <Animated.View style={[styles.heroImageWrapper, { transform: [{ scale: heroScale }] }]}>
             <Image
-              source="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=500&fit=crop"
+              source={curbDesignImages.hero}
               style={styles.heroImage}
               contentFit="cover"
             />

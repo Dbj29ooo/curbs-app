@@ -39,47 +39,57 @@ export interface TeamMember {
   bio: string;
 }
 
+export const curbDesignImages = {
+  hero: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/yhhlmroyna5kjma3puvdx',
+  galleryOne: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/yhhlmroyna5kjma3puvdx',
+  galleryTwo: 'https://curbnsign.com/cdn/shop/files/Main_Image_1aa3c844-8520-4dde-8ba2-1ed3c73c94e7_grande.png?v=1721248423',
+  galleryThree: 'https://i.etsystatic.com/12710617/r/il/82b356/3474982984/il_fullxfull.3474982984_7eog.jpg',
+  galleryFour: 'https://cms.modernhousenumbers.com/assets/preview_stencil_1.jpg',
+  galleryFive: 'https://cms.modernhousenumbers.com/assets/preview_stencil_3.jpg',
+  gallerySix: 'https://cms.modernhousenumbers.com/assets/guide_stencil_font_sb_1.jpg',
+} as const;
+
 export const designTypes: DesignType[] = [
   {
     id: '1',
     title: 'Classic Scroll Border',
     description: 'Timeless elegance with flowing scroll patterns that frame your property beautifully. Perfect for traditional and colonial-style homes.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop',
+    image: curbDesignImages.galleryOne,
     features: ['Hand-stamped patterns', 'Multiple color options', 'UV-resistant finish', '25-year warranty'],
   },
   {
     id: '2',
     title: 'Modern Geometric',
     description: 'Clean lines and bold geometric shapes for contemporary properties. Adds a sleek, architectural accent to any landscape.',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop',
+    image: curbDesignImages.galleryTwo,
     features: ['Sharp angular designs', 'Minimalist aesthetic', 'Concrete or stamped', 'Custom dimensions'],
   },
   {
     id: '3',
     title: 'Natural Stone Look',
     description: 'Mimics the appearance of natural stacked stone with remarkable realism. Brings rustic charm without the premium cost.',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop',
+    image: curbDesignImages.galleryThree,
     features: ['Realistic texture', 'Earth-tone colors', 'Weather resistant', 'Low maintenance'],
   },
   {
     id: '4',
     title: 'Brick Pattern',
     description: 'Classic brick-style curbing that complements any architectural style. Provides structure and definition to garden beds.',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop',
+    image: curbDesignImages.galleryFour,
     features: ['Authentic brick look', 'Interlocking design', 'Durable finish', 'Color-matched options'],
   },
   {
     id: '5',
     title: 'Flagstone Elegance',
     description: 'Irregular flagstone patterns create an organic, natural border. Ideal for cottage gardens and Mediterranean landscapes.',
-    image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop',
+    image: curbDesignImages.galleryFive,
     features: ['Organic shapes', 'Multi-tone coloring', 'Seamless installation', 'Custom widths'],
   },
   {
     id: '6',
     title: 'Mower Edge',
     description: 'Functional and beautiful flat curbing designed for easy lawn mowing. Clean separation between grass and garden beds.',
-    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop',
+    image: curbDesignImages.gallerySix,
     features: ['Mower-friendly', 'Flush installation', 'Clean edges', 'Practical design'],
   },
 ];

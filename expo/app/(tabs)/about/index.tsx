@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Award, Shield, Clock, Heart } from 'lucide-react-native';
 
 import Colors from '@/constants/colors';
-import { teamMembers } from '@/mocks/data';
+import { curbDesignImages, teamMembers } from '@/mocks/data';
 
 const values = [
   { icon: Award, title: 'Craftsmanship', desc: 'Every curb is hand-finished with meticulous attention to detail.' },
@@ -31,7 +31,7 @@ export default function AboutScreen() {
     >
       <View style={styles.heroCard}>
         <Image
-          source="https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=800&h=400&fit=crop"
+          source={curbDesignImages.hero}
           style={styles.heroImage}
           contentFit="cover"
         />
