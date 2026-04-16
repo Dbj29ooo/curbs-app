@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
 import { Stack } from 'expo-router';
 import { Mail, Sparkles, CheckCircle2 } from 'lucide-react-native';
@@ -16,8 +17,17 @@ import * as Haptics from 'expo-haptics';
 import Colors from '@/constants/colors';
 
 export default function NewsletterScreen() {
+  const { width } = useWindowDimensions();
   const [email, setEmail] = useState<string>('');
   const [subscribed, setSubscribed] = useState<boolean>(false);
+  const layout = useMemo(() => {
+    const contentMaxWidth = Math.min(width - 24, 760);
+
+    return {
+      contentMaxWidth,
+      contentPadding: width >= 900 ? 36 : 28,
+    };
+  }, [width]);
 
   const handleSubscribe = useCallback(() => {
     if (!email.trim() || !email.includes('@')) {
@@ -36,9 +46,9 @@ export default function NewsletterScreen() {
           <View style={styles.successIconWrap}>
             <CheckCircle2 size={56} color={Colors.success} />
           </View>
-          <Text style={styles.successTitle}>You're In!</Text>
+          <Text style={styles.successTitle}>You’re In!</Text>
           <Text style={styles.successDesc}>
-            Welcome to the CurbCraft community. You'll receive design inspiration, seasonal tips, and exclusive offers in your inbox.
+            Welcome to the CurbCraft community. You’ll receive design inspiration, seasonal tips, and exclusive offers in your inbox.
           </Text>
         </View>
       </View>
@@ -51,7 +61,17 @@ export default function NewsletterScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <Stack.Screen options={{ title: 'Newsletter' }} />
-      <View style={styles.content}>
+      <View
+        style={[
+          styles.content,
+          {
+            maxWidth: layout.contentMaxWidth,
+            width: '100%',
+            alignSelf: 'center',
+            paddingHorizontal: layout.contentPadding,
+          },
+        ]}
+      >
         <View style={styles.iconWrap}>
           <Mail size={36} color={Colors.accent} />
         </View>
@@ -113,7 +133,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 28,
     justifyContent: 'center',
   },
   iconWrap: {

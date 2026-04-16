@@ -1,20 +1,35 @@
 import { Tabs } from 'expo-router';
 import { Home, Palette, CalendarPlus, Info, Menu } from 'lucide-react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Platform, useWindowDimensions } from 'react-native';
 
 import Colors from '@/constants/colors';
 
 export default function TabLayout() {
+  const { width } = useWindowDimensions();
+  const tabBarStyle = useMemo(() => ({
+    backgroundColor: Colors.white,
+    borderTopColor: Colors.borderLight,
+    borderTopWidth: 1,
+    ...(Platform.OS === 'web'
+      ? {
+          width: Math.min(width - 24, 1180),
+          alignSelf: 'center' as const,
+          borderRadius: 18,
+          marginBottom: 12,
+          position: 'absolute' as const,
+          left: 0,
+          right: 0,
+        }
+      : null),
+  }), [width]);
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.accent,
         tabBarInactiveTintColor: Colors.textMuted,
-        tabBarStyle: {
-          backgroundColor: Colors.white,
-          borderTopColor: Colors.borderLight,
-          borderTopWidth: 1,
-        },
+        tabBarStyle,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600' as const,

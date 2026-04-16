@@ -47,10 +47,10 @@ export default function AboutScreen() {
           CurbCraft Design was born from a simple belief: that every home deserves beautiful, lasting landscape borders. Founded in 2010 by Michael Carter, a landscape architect with a passion for precision, we started as a small team in Austin, Texas.
         </Text>
         <Text style={styles.storyText}>
-          Over the past 15 years, we've grown into one of the most trusted curb design companies in the Southwest, completing over 2,500 projects across five states. Our success is built on a foundation of quality materials, skilled craftsmanship, and genuine care for every client's vision.
+          Over the past 15 years, we have grown into one of the most trusted curb design companies in the Southwest, completing over 2,500 projects across five states. Our success is built on a foundation of quality materials, skilled craftsmanship, and genuine care for every client’s vision.
         </Text>
         <Text style={styles.storyText}>
-          Today, our team of experienced installers brings the same dedication and artistry to every project — whether it's a simple mower edge or an elaborate flagstone border for a luxury property.
+          Today, our team of experienced installers brings the same dedication and artistry to every project — whether it is a simple mower edge or an elaborate flagstone border for a luxury property.
         </Text>
       </View>
 
@@ -88,9 +88,9 @@ export default function AboutScreen() {
       </View>
 
       <View style={styles.ctaSection}>
-        <Text style={styles.ctaTitle}>Let's Work Together</Text>
+        <Text style={styles.ctaTitle}>Let’s Work Together</Text>
         <Text style={styles.ctaDesc}>
-          Ready to bring your curb vision to life? We'd love to hear from you.
+          Ready to bring your curb vision to life? We would love to hear from you.
         </Text>
         <Pressable
           style={({ pressed }) => [styles.ctaBtn, pressed && { opacity: 0.85 }]}

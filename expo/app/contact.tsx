@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Linking,
   Platform,
   KeyboardAvoidingView,
+  useWindowDimensions,
 } from 'react-native';
 import { Stack } from 'expo-router';
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare } from 'lucide-react-native';
@@ -18,11 +19,20 @@ import * as Haptics from 'expo-haptics';
 import Colors from '@/constants/colors';
 
 export default function ContactScreen() {
+  const { width } = useWindowDimensions();
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [sent, setSent] = useState<boolean>(false);
+  const layout = useMemo(() => {
+    const contentMaxWidth = Math.min(width - 24, 960);
+
+    return {
+      contentMaxWidth,
+      contentPadding: width >= 900 ? 28 : 20,
+    };
+  }, [width]);
 
   const handleSend = useCallback(() => {
     if (!name.trim() || !email.trim() || !message.trim()) {
@@ -85,11 +95,19 @@ export default function ContactScreen() {
       <Stack.Screen options={{ title: 'Contact Us' }} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          {
+            maxWidth: layout.contentMaxWidth,
+            width: '100%',
+            alignSelf: 'center',
+            paddingHorizontal: layout.contentPadding,
+          },
+        ]}
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.intro}>
-          Have a question or ready to start? We'd love to hear from you.
+          Have a question or ready to start? We would love to hear from you.
         </Text>
 
         <View style={styles.contactCards}>
@@ -182,7 +200,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   content: {
-    padding: 20,
     paddingBottom: 40,
   },
   intro: {

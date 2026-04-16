@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
   Animated,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,14 +17,26 @@ import * as Haptics from 'expo-haptics';
 import Colors from '@/constants/colors';
 import { curbDesignImages, designTypes, testimonials } from '@/mocks/data';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { width } = useWindowDimensions();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
   const heroScale = useRef(new Animated.Value(1.1)).current;
+  const layout = useMemo(() => {
+    const pageMaxWidth = Math.min(width - 24, 1180);
+    const isWide = width >= 900;
+    const designCardWidth = isWide ? 320 : Math.min(width * 0.68, 320);
+
+    return {
+      pageMaxWidth,
+      isWide,
+      designCardWidth,
+      heroHeight: isWide ? 540 : 420,
+      sectionPadding: isWide ? 28 : 20,
+    };
+  }, [width]);
 
   useEffect(() => {
     Animated.parallel([
@@ -55,9 +67,9 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={styles.scrollContent}
       >
-        <View style={styles.heroSection}>
+        <View style={[styles.heroSection, { height: layout.heroHeight, maxWidth: layout.pageMaxWidth, alignSelf: 'center', width: '100%' }]}>
           <Animated.View style={[styles.heroImageWrapper, { transform: [{ scale: heroScale }] }]}>
             <Image
               source={curbDesignImages.hero}
@@ -97,7 +109,7 @@ export default function HomeScreen() {
           </Animated.View>
         </View>
 
-        <View style={styles.statsBar}>
+        <View style={[styles.statsBar, { maxWidth: layout.pageMaxWidth - 40, width: '100%', alignSelf: 'center' }]}>
           {[
             { value: '2,500+', label: 'Projects' },
             { value: '15+', label: 'Years' },
@@ -110,7 +122,7 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        <View style={styles.section}>
+        <View style={[styles.section, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center', paddingHorizontal: layout.sectionPadding }]}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Popular Designs</Text>
             <Pressable onPress={() => handlePress('/(tabs)/services')}>
@@ -125,7 +137,7 @@ export default function HomeScreen() {
             {designTypes.slice(0, 4).map((design) => (
               <Pressable
                 key={design.id}
-                style={({ pressed }) => [styles.designCard, pressed && styles.cardPressed]}
+                style={({ pressed }) => [styles.designCard, { width: layout.designCardWidth }, pressed && styles.cardPressed]}
                 onPress={() => handlePress('/(tabs)/services')}
               >
                 <Image
@@ -144,7 +156,7 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        <View style={styles.ctaBanner}>
+        <View style={[styles.ctaBanner, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center' }]}>
           <View style={styles.ctaBannerInner}>
             <Text style={styles.ctaBannerTitle}>Ready to Transform{'\n'}Your Property?</Text>
             <Text style={styles.ctaBannerDesc}>
@@ -159,7 +171,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
+        <View style={[styles.section, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center', paddingHorizontal: layout.sectionPadding }]}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Client Love</Text>
             <Pressable onPress={() => handlePress('/testimonials')}>
@@ -183,12 +195,12 @@ export default function HomeScreen() {
                   ))}
                 </View>
               </View>
-              <Text style={styles.testimonialText}>"{t.text}"</Text>
+              <Text style={styles.testimonialText}>{`“${t.text}”`}</Text>
             </View>
           ))}
         </View>
 
-        <View style={styles.newsletterSection}>
+        <View style={[styles.newsletterSection, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center' }]}>
           <Text style={styles.newsletterTitle}>Stay Inspired</Text>
           <Text style={styles.newsletterDesc}>
             Get design ideas, seasonal tips, and exclusive offers delivered to your inbox.
@@ -210,10 +222,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
+  scrollContent: {
+    paddingBottom: 40,
+  },
   heroSection: {
-    height: 420,
     position: 'relative',
     overflow: 'hidden',
+    borderBottomLeftRadius: 28,
+    borderBottomRightRadius: 28,
   },
   heroImageWrapper: {
     ...StyleSheet.absoluteFillObject,
@@ -315,7 +331,6 @@ const styles = StyleSheet.create({
     fontWeight: '500' as const,
   },
   section: {
-    paddingHorizontal: 20,
     marginTop: 32,
   },
   sectionHeader: {
@@ -339,7 +354,6 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   designCard: {
-    width: SCREEN_WIDTH * 0.6,
     backgroundColor: Colors.white,
     borderRadius: 16,
     overflow: 'hidden',
@@ -372,7 +386,6 @@ const styles = StyleSheet.create({
     lineHeight: 17,
   },
   ctaBanner: {
-    marginHorizontal: 20,
     marginTop: 32,
     borderRadius: 20,
     overflow: 'hidden',
@@ -457,7 +470,6 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   newsletterSection: {
-    marginHorizontal: 20,
     marginTop: 32,
     backgroundColor: Colors.cardAlt,
     borderRadius: 20,

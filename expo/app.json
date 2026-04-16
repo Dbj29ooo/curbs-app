@@ -25,6 +25,8 @@
       "package": "app.rork.kvj9iv1r75yn23nipcclp"
     },
     "web": {
+      "bundler": "metro",
+      "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -38,7 +40,8 @@
       "expo-web-browser"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/curbs-app"
     }
   }
 }

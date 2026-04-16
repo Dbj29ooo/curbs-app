@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
   Animated,
+  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Check, ArrowRight } from 'lucide-react-native';
@@ -16,7 +17,16 @@ import { designTypes } from '@/mocks/data';
 
 export default function ServicesScreen() {
   const router = useRouter();
+  const { width } = useWindowDimensions();
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const layout = useMemo(() => {
+    const contentMaxWidth = Math.min(width - 24, 980);
+
+    return {
+      contentMaxWidth,
+      contentPadding: width >= 900 ? 28 : 20,
+    };
+  }, [width]);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -30,10 +40,18 @@ export default function ServicesScreen() {
     <Animated.ScrollView
       style={[styles.container, { opacity: fadeAnim }]}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[
+        styles.content,
+        {
+          maxWidth: layout.contentMaxWidth,
+          width: '100%',
+          alignSelf: 'center',
+          paddingHorizontal: layout.contentPadding,
+        },
+      ]}
     >
       <Text style={styles.headerText}>
-        We offer a variety of curb designs to match your home's style and landscape needs.
+        We offer a variety of curb designs to match your home’s style and landscape needs.
       </Text>
 
       {designTypes.map((design, index) => (
@@ -74,7 +92,7 @@ export default function ServicesScreen() {
       ))}
 
       <View style={styles.customBanner}>
-        <Text style={styles.customTitle}>Don't See What You Need?</Text>
+        <Text style={styles.customTitle}>Don’t See What You Need?</Text>
         <Text style={styles.customDesc}>
           We create fully custom designs. Contact us to discuss your vision.
         </Text>
@@ -95,7 +113,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   content: {
-    padding: 20,
     paddingBottom: 40,
   },
   headerText: {

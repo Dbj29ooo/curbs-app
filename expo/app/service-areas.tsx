@@ -68,9 +68,9 @@ export default function ServiceAreasScreen() {
         })}
 
         <View style={styles.notListed}>
-          <Text style={styles.notListedTitle}>Don't see your area?</Text>
+          <Text style={styles.notListedTitle}>Don’t see your area?</Text>
           <Text style={styles.notListedDesc}>
-            We're expanding! Contact us to check if we serve your location or to request service in a new area.
+            We’re expanding! Contact us to check if we serve your location or to request service in a new area.
           </Text>
         </View>
       </ScrollView>

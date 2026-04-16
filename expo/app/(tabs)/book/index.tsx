@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Animated,
   KeyboardAvoidingView,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
 import { Calendar, Clock, User, Mail, Phone, MapPin, CheckCircle } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
@@ -18,6 +19,7 @@ import Colors from '@/constants/colors';
 import { designTypes } from '@/mocks/data';
 
 export default function BookScreen() {
+  const { width } = useWindowDimensions();
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -28,6 +30,14 @@ export default function BookScreen() {
   const [message, setMessage] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
   const successAnim = useRef(new Animated.Value(0)).current;
+  const layout = useMemo(() => {
+    const contentMaxWidth = Math.min(width - 24, 920);
+
+    return {
+      contentMaxWidth,
+      contentPadding: width >= 900 ? 28 : 20,
+    };
+  }, [width]);
 
   const timeSlots = ['Morning (8-11 AM)', 'Afternoon (12-3 PM)', 'Late Afternoon (3-6 PM)'];
 
@@ -76,7 +86,7 @@ export default function BookScreen() {
           </View>
           <Text style={styles.successTitle}>Booking Received!</Text>
           <Text style={styles.successDesc}>
-            We'll review your request and contact you within 24 hours to confirm your appointment.
+            We will review your request and contact you within 24 hours to confirm your appointment.
           </Text>
           <Pressable
             style={({ pressed }) => [styles.successBtn, pressed && { opacity: 0.85 }]}
@@ -96,7 +106,15 @@ export default function BookScreen() {
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          {
+            maxWidth: layout.contentMaxWidth,
+            width: '100%',
+            alignSelf: 'center',
+            paddingHorizontal: layout.contentPadding,
+          },
+        ]}
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.intro}>
@@ -276,7 +294,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   content: {
-    padding: 20,
     paddingBottom: 40,
   },
   intro: {
