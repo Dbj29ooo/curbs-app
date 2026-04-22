@@ -11,6 +11,9 @@ export default function TabLayout() {
     backgroundColor: Colors.white,
     borderTopColor: Colors.borderLight,
     borderTopWidth: 1,
+    paddingTop: 8,
+    paddingBottom: Platform.OS === 'web' ? 8 : 10,
+    height: Platform.OS === 'web' ? 72 : 84,
     ...(Platform.OS === 'web'
       ? {
           width: Math.min(width - 24, 1180),
@@ -20,6 +23,10 @@ export default function TabLayout() {
           position: 'absolute' as const,
           left: 0,
           right: 0,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 8 },
+          shadowOpacity: 0.08,
+          shadowRadius: 18,
         }
       : null),
   }), [width]);
@@ -33,6 +40,11 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600' as const,
+          marginBottom: Platform.OS === 'web' ? 2 : 6,
+        },
+        tabBarItemStyle: {
+          minHeight: 52,
+          paddingVertical: 4,
         },
         headerShown: false,
       }}

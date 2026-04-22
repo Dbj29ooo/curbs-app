@@ -7,6 +7,7 @@ import {
   Pressable,
   Animated,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -27,11 +28,13 @@ export default function HomeScreen() {
   const layout = useMemo(() => {
     const pageMaxWidth = Math.min(width - 24, 1180);
     const isWide = width >= 900;
+    const isDesktop = width >= 1200;
     const designCardWidth = isWide ? 320 : Math.min(width * 0.68, 320);
 
     return {
       pageMaxWidth,
       isWide,
+      isDesktop,
       designCardWidth,
       heroHeight: isWide ? 540 : 420,
       sectionPadding: isWide ? 28 : 20,
@@ -75,6 +78,10 @@ export default function HomeScreen() {
               source={curbDesignImages.hero}
               style={styles.heroImage}
               contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={250}
+              priority="high"
+              recyclingKey="home-hero-image"
             />
           </Animated.View>
           <View style={styles.heroOverlay} />
@@ -109,7 +116,7 @@ export default function HomeScreen() {
           </Animated.View>
         </View>
 
-        <View style={[styles.statsBar, { maxWidth: layout.pageMaxWidth - 40, width: '100%', alignSelf: 'center' }]}>
+        <View style={[styles.statsBar, layout.isDesktop && styles.statsBarDesktop, { maxWidth: layout.pageMaxWidth - 40, width: '100%', alignSelf: 'center' }]}>
           {[
             { value: '2,500+', label: 'Projects' },
             { value: '15+', label: 'Years' },
@@ -144,6 +151,9 @@ export default function HomeScreen() {
                   source={design.image}
                   style={styles.designImage}
                   contentFit="cover"
+                  cachePolicy="memory-disk"
+                  transition={200}
+                  recyclingKey={`design-${design.id}`}
                 />
                 <View style={styles.designCardContent}>
                   <Text style={styles.designCardTitle}>{design.title}</Text>
@@ -181,7 +191,14 @@ export default function HomeScreen() {
           {testimonials.slice(0, 2).map((t) => (
             <View key={t.id} style={styles.testimonialCard}>
               <View style={styles.testimonialHeader}>
-                <Image source={t.avatar} style={styles.testimonialAvatar} contentFit="cover" />
+                <Image
+                  source={t.avatar}
+                  style={styles.testimonialAvatar}
+                  contentFit="cover"
+                  cachePolicy="memory-disk"
+                  transition={120}
+                  recyclingKey={`testimonial-${t.id}`}
+                />
                 <View style={styles.testimonialInfo}>
                   <Text style={styles.testimonialName}>{t.name}</Text>
                   <View style={styles.testimonialLocation}>
@@ -200,7 +217,7 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        <View style={[styles.newsletterSection, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center' }]}>
+        <View style={[styles.newsletterSection, { maxWidth: layout.pageMaxWidth, width: '100%', alignSelf: 'center' }]}> 
           <Text style={styles.newsletterTitle}>Stay Inspired</Text>
           <Text style={styles.newsletterDesc}>
             Get design ideas, seasonal tips, and exclusive offers delivered to your inbox.
@@ -281,9 +298,12 @@ const styles = StyleSheet.create({
   heroCTA: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.accent,
     paddingVertical: 14,
     paddingHorizontal: 24,
+    minHeight: 52,
+    minWidth: Platform.OS === 'web' ? 220 : 0,
     borderRadius: 12,
     alignSelf: 'flex-start',
     gap: 8,
@@ -310,6 +330,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 4,
+    gap: 0,
+  },
+  statsBarDesktop: {
+    paddingHorizontal: 20,
   },
   statItem: {
     flex: 1,
@@ -411,6 +435,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent,
     paddingVertical: 12,
     paddingHorizontal: 24,
+    minHeight: 48,
+    minWidth: Platform.OS === 'web' ? 180 : 0,
+    justifyContent: 'center',
     borderRadius: 10,
     alignSelf: 'flex-start',
   },
@@ -493,6 +520,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 28,
+    minHeight: 48,
+    minWidth: Platform.OS === 'web' ? 240 : 0,
+    justifyContent: 'center',
     borderRadius: 10,
   },
   newsletterBtnText: {

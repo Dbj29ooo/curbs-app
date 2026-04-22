@@ -39,14 +39,16 @@ export interface TeamMember {
   bio: string;
 }
 
+const projectCurbImageBase = 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/yhhlmroyna5kjma3puvdx';
+
 export const curbDesignImages = {
-  hero: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/yhhlmroyna5kjma3puvdx',
-  galleryOne: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/yhhlmroyna5kjma3puvdx',
-  galleryTwo: 'https://curbnsign.com/cdn/shop/files/Main_Image_1aa3c844-8520-4dde-8ba2-1ed3c73c94e7_grande.png?v=1721248423',
-  galleryThree: 'https://i.etsystatic.com/12710617/r/il/82b356/3474982984/il_fullxfull.3474982984_7eog.jpg',
-  galleryFour: 'https://cms.modernhousenumbers.com/assets/preview_stencil_1.jpg',
-  galleryFive: 'https://cms.modernhousenumbers.com/assets/preview_stencil_3.jpg',
-  gallerySix: 'https://cms.modernhousenumbers.com/assets/guide_stencil_font_sb_1.jpg',
+  hero: `${projectCurbImageBase}?width=1600&quality=82&format=webp`,
+  galleryOne: `${projectCurbImageBase}?width=1200&quality=82&format=webp`,
+  galleryTwo: `${projectCurbImageBase}?width=1080&quality=80&format=webp`,
+  galleryThree: `${projectCurbImageBase}?width=960&quality=80&format=webp`,
+  galleryFour: `${projectCurbImageBase}?width=900&quality=78&format=webp`,
+  galleryFive: `${projectCurbImageBase}?width=840&quality=78&format=webp`,
+  gallerySix: `${projectCurbImageBase}?width=780&quality=76&format=webp`,
 } as const;
 
 export const designTypes: DesignType[] = [
@@ -219,21 +221,21 @@ export const teamMembers: TeamMember[] = [
     id: '1',
     name: 'Michael Carter',
     role: 'Founder & Lead Designer',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop',
+    image: `${projectCurbImageBase}?width=480&quality=74&format=webp`,
     bio: 'With over 20 years in landscape architecture, Michael founded CurbCraft to bring artistry to every curb line.',
   },
   {
     id: '2',
     name: 'Jessica Alvarez',
     role: 'Operations Manager',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop',
+    image: `${projectCurbImageBase}?width=420&quality=72&format=webp`,
     bio: 'Jessica ensures every project runs smoothly from consultation to completion, maintaining our high standards.',
   },
   {
     id: '3',
     name: 'Daniel Nguyen',
     role: 'Senior Installer',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop',
+    image: `${projectCurbImageBase}?width=400&quality=72&format=webp`,
     bio: 'Daniel leads our installation crews with precision and craftsmanship honed over 15 years in the field.',
   },
 ];

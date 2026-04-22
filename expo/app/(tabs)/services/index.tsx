@@ -6,6 +6,7 @@ import {
   Pressable,
   Animated,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Check, ArrowRight } from 'lucide-react-native';
@@ -21,10 +22,13 @@ export default function ServicesScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const layout = useMemo(() => {
     const contentMaxWidth = Math.min(width - 24, 980);
+    const isDesktop = width >= 1100;
 
     return {
       contentMaxWidth,
+      isDesktop,
       contentPadding: width >= 900 ? 28 : 20,
+      imageHeight: isDesktop ? 260 : 180,
     };
   }, [width]);
 
@@ -55,11 +59,14 @@ export default function ServicesScreen() {
       </Text>
 
       {designTypes.map((design, index) => (
-        <View key={design.id} style={styles.card}>
+        <View key={design.id} style={[styles.card, layout.isDesktop && styles.cardDesktop]}>
           <Image
             source={design.image}
-            style={styles.cardImage}
+            style={[styles.cardImage, { height: layout.imageHeight }]}
             contentFit="cover"
+            cachePolicy="memory-disk"
+            transition={220}
+            recyclingKey={`services-design-${design.id}`}
           />
           <View style={styles.cardBody}>
             <View style={styles.cardNumberBadge}>
@@ -79,6 +86,7 @@ export default function ServicesScreen() {
             </View>
             <Pressable
               style={({ pressed }) => [styles.cardCTA, pressed && { opacity: 0.85 }]}
+              testID={`service-quote-${design.id}`}
               onPress={() => {
                 void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 router.push('/(tabs)/book');
@@ -98,6 +106,7 @@ export default function ServicesScreen() {
         </Text>
         <Pressable
           style={({ pressed }) => [styles.customBtn, pressed && { opacity: 0.85 }]}
+          testID="services-contact-button"
           onPress={() => router.push('/contact')}
         >
           <Text style={styles.customBtnText}>Contact Us</Text>
@@ -132,9 +141,11 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
+  cardDesktop: {
+    alignSelf: 'center',
+  },
   cardImage: {
     width: '100%',
-    height: 180,
   },
   cardBody: {
     padding: 20,
@@ -192,6 +203,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     alignSelf: 'flex-start',
+    minHeight: 44,
     paddingVertical: 8,
   },
   cardCTAText: {
@@ -224,6 +236,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent,
     paddingVertical: 12,
     paddingHorizontal: 28,
+    minHeight: 48,
+    minWidth: Platform.OS === 'web' ? 180 : 0,
+    justifyContent: 'center',
     borderRadius: 10,
   },
   customBtnText: {

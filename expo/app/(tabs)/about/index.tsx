@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Pressable,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -34,6 +35,10 @@ export default function AboutScreen() {
           source={curbDesignImages.hero}
           style={styles.heroImage}
           contentFit="cover"
+          cachePolicy="memory-disk"
+          transition={220}
+          priority="high"
+          recyclingKey="about-hero-image"
         />
         <View style={styles.heroOverlay} />
         <View style={styles.heroTextContainer}>
@@ -77,6 +82,9 @@ export default function AboutScreen() {
               source={member.image}
               style={styles.teamImage}
               contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={160}
+              recyclingKey={`team-${member.id}`}
             />
             <View style={styles.teamInfo}>
               <Text style={styles.teamName}>{member.name}</Text>
@@ -94,6 +102,7 @@ export default function AboutScreen() {
         </Text>
         <Pressable
           style={({ pressed }) => [styles.ctaBtn, pressed && { opacity: 0.85 }]}
+          testID="about-contact-button"
           onPress={() => router.push('/contact')}
         >
           <Text style={styles.ctaBtnText}>Get in Touch</Text>
@@ -265,6 +274,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent,
     paddingVertical: 12,
     paddingHorizontal: 28,
+    minHeight: 48,
+    minWidth: Platform.OS === 'web' ? 180 : 0,
+    justifyContent: 'center',
     borderRadius: 10,
   },
   ctaBtnText: {
